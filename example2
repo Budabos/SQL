@@ -1,0 +1,108 @@
+-- Relation tables by use foreign keys
+CREATE TABLE cars (
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    model TEXT NOT NULL,
+    date_of_purchase DATE NOT NULL,
+    user_id INTEGER NOT NULL
+);
+/* 2023-12-05 09:58:03 [96 ms] */
+CREATE TABLE cars (
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    model TEXT NOT NULL,
+    date_of_purchase DATE NOT NULL,
+    user_id INTEGER NOT NULL
+);
+/* 2023-12-05 09:59:09 [77 ms] */
+INSERT INTO cars(model,date_of_purchase,user_id) VALUES('BMW','2022-03-09 00:00:00',1);
+/* 2023-12-05 09:59:37 [95 ms] */
+INSERT INTO cars(model,date_of_purchase,user_id) VALUES('Mercedes','2023-12-06 00:00:00',5);
+/* 2023-12-05 10:01:11 [66 ms] */
+INSERT INTO cars(model,date_of_purchase,user_id) VALUES('Audi','2023-12-04 00:00:00',1);
+
+CREATE UNIQUE INDEX unique_user_id ON cars (user_id);
+
+
+-- Relationships
+-- One to One
+-- One to Many
+-- Many to Many
+/* 2023-12-05 15:22:16 [68 ms] */
+DELETE FROM "cars" WHERE "id"=3;
+/* 2023-12-05 15:22:30 [65 ms] */
+CREATE UNIQUE INDEX unique_user_id ON cars (user_id);
+/* 2023-12-05 15:23:43 [9 ms] */
+INSERT INTO cars(model,date_of_purchase,user_id) VALUES('Audi','2023-12-05 00:00:00',1);
+
+-- LEFT JOIN
+SELECT users.email, cars.model, cars.date_of_purchase FROM users LEFT JOIN cars ON users.id = cars.user_id;
+
+DROP TABLE cars;
+
+CREATE TABLE cars (
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    model TEXT NOT NULL,
+    date_of_purchase DATE NOT NULL,
+    user_id INTEGER NOT NULL REFERENCES users(id) --Foreign Key
+);
+/* 2023-12-05 15:32:37 [67 ms] */
+CREATE TABLE cars (
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    model TEXT NOT NULL,
+    date_of_purchase DATE NOT NULL,
+    user_id INTEGER NOT NULL REFERENCES users(id) --Foreign Key
+);
+/* 2023-12-05 15:33:32 [59 ms] */
+INSERT INTO cars(model,date_of_purchase,user_id) VALUES('BWM','2023-12-05 15:33:25',5);
+/* 2023-12-05 15:35:02 [62 ms] */
+INSERT INTO cars(date_of_purchase,model,user_id) VALUES('2023-12-05 00:00:00','Mercedes',2);
+/* 2023-12-05 15:35:09 [64 ms] */
+UPDATE cars SET user_id=1 WHERE "id"=1;
+/* 2023-12-05 15:35:30 [65 ms] */
+INSERT INTO cars(model,date_of_purchase,user_id) VALUES('Audi','2023-12-05 15:35:24',3);
+/* 2023-12-05 15:38:08 [65 ms] */
+UPDATE cars SET user_id=1 WHERE "id"=3;
+
+CREATE TABLE todos (
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    name TEXT NOT NULL,
+    user_id INTEGER NOT NULL REFERENCES users(id)
+);
+/* 2023-12-05 15:43:15 [67 ms] */
+CREATE TABLE todos (
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    name TEXT NOT NULL,
+    user_id INTEGER NOT NULL REFERENCES users(id)
+);
+/* 2023-12-05 15:44:19 [79 ms] */
+INSERT INTO todos(name,user_id) VALUES('Work on SQL Alchemy',1);INSERT INTO todos(name,user_id) VALUES('Come up with a project',1);
+
+CREATE TABLE companies (
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    name TEXT
+);
+
+-- A join table to implement many to many relationship
+CREATE TABLE company_owners (
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    user_id INTEGER NOT NULL REFERENCES users(id),
+    company_id INTEGER NOT NULL REFERENCES companies(id)
+);
+/* 2023-12-05 16:04:34 [77 ms] */
+CREATE TABLE companies (
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    name TEXT
+);
+/* 2023-12-05 16:04:42 [67 ms] */
+CREATE TABLE company_owners (
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    user_id INTEGER NOT NULL REFERENCES users(id),
+    company_id INTEGER NOT NULL REFERENCES companies(id)
+);
+/* 2023-12-05 16:06:31 [67 ms] */
+INSERT INTO companies(name) VALUES('Bravo');
+/* 2023-12-05 16:07:21 [77 ms] */
+INSERT INTO company_owners(user_id,company_id) VALUES(2,1);INSERT INTO company_owners(user_id,company_id) VALUES(1,1);
+
+-- TODO
+-- Write an sql query that selects all users and companies that they own
+-- Write an sql query that selects all companies and its owners
