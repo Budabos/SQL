@@ -1,0 +1,234 @@
+-- SQL -> Structured Query Language (used to manage relational databases)
+
+-- Table - collection of related data consisting of rows and columns
+
+/*
+* For best practices, naming convention should have the following rules
+* The rules apply to tables names and columns
+* 1. Should be in lowercase
+* 2. Should use snake_case naming convention
+*/
+
+-- Creating a table
+
+CREATE TABLE users (
+    id INTEGER PRIMARY KEY,
+    first_name TEXT,
+    last_name TEXT,
+    age INTEGER,
+    phone TEXT
+);
+/* 2023-12-04 09:44:08 [70 ms] */
+-- Creating a table;
+/* 2023-12-04 09:45:01 [69 ms] */
+CREATE TABLE users (
+    id INTEGER PRIMARY KEY,
+    first_name TEXT,
+    last_name TEXT,
+    age INTEGER,
+    phone TEXT
+);
+
+-- Alter table, add column
+ALTER TABLE users ADD COLUMN email TEXT;
+/* 2023-12-04 09:48:22 [107 ms] */
+ALTER TABLE users ADD COLUMN email TEXT;
+
+-- Alter table, drop column
+
+-- ALTER TABLE users DROP COLUMN email;
+
+-- Drop table
+DROP TABLE users;
+/* 2023-12-04 09:53:50 [62 ms] */
+DROP TABLE users;
+/* 2023-12-04 09:54:50 [74 ms] */
+CREATE TABLE users (
+    id INTEGER PRIMARY KEY,
+    first_name TEXT,
+    last_name TEXT,
+    age INTEGER,
+    phone TEXT
+);
+
+
+ALTER TABLE users ADD COLUMN email TEXT;
+/* 2023-12-04 10:03:30 [60 ms] */
+ALTER TABLE users ADD COLUMN email TEXT;
+
+CREATE TABLE users_v2 AS SELECT id, first_name, last_name, age, phone FROM users
+/* 2023-12-04 10:05:04 [65 ms] */
+CREATE TABLE users_v2 AS SELECT id, first_name, last_name, age, phone FROM users;
+
+DROP TABLE users;
+
+
+/* 2023-12-04 10:06:01 [62 ms] */
+DROP TABLE users;
+
+ALTER TABLE users_v2 RENAME TO users;
+/* 2023-12-04 10:06:43 [71 ms] */
+ALTER TABLE users_v2 RENAME TO users;
+
+
+-- Creating records inside a table
+INSERT INTO users (first_name, last_name, age, phone) VALUES ("John", "Doe", 34, "0712345678");
+
+-- Creating records inside a table
+INSERT INTO users (first_name, last_name, age, phone) VALUES ("Jane", "Doe", 23, "0712345678");
+/* 2023-12-04 15:17:34 [65 ms] */
+INSERT INTO users (first_name, last_name, age, phone) VALUES ("Jane", "Doe", 23, "0712345679");
+
+-- Reading Records from a table
+
+SELECT * FROM users;
+/* 2023-12-04 15:18:53 [8 ms] */
+SELECT * FROM users LIMIT 0,100;
+
+-- Update record
+
+-- This will update all rows in the table
+UPDATE users SET phone = "0712345679";
+/* 2023-12-04 15:23:17 [90 ms] */
+UPDATE users SET phone = "0712345679";
+
+-- Update specific rows
+UPDATE users SET phone ="0712345678" WHERE id = 1;
+/* 2023-12-04 15:25:31 [63 ms] */
+UPDATE users SET phone ="0712345678" WHERE id = 1;
+
+-- Deleting records/rows
+
+-- Delete specific rows
+DELETE FROM users WHERE phone = "0712345679";
+/* 2023-12-04 15:27:55 [60 ms] */
+DELETE FROM users WHERE phone = "0712345679";
+
+-- Delete all rows
+DELETE FROM users;
+/* 2023-12-04 15:30:17 [67 ms] */
+DELETE FROM users;
+
+-- Constraints
+/*
+* primary key is used to identify uniqueness of rows in a table
+* autoincrement is used to automatically generate unique ids as records are inserted
+* unique
+*/
+CREATE TABLE users (
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    first_name TEXT NOT NULL,
+    last_name TEXT NOT NULL,
+    age INTEGER NOT NULL,
+    phone TEXT
+);
+/* 2023-12-04 15:44:22 [63 ms] */
+CREATE TABLE users (
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    first_name TEXT NOT NULL,
+    last_name TEXT NOT NULL,
+    age INTEGER NOT NULL,
+    phone TEXT
+);
+
+
+INSERT INTO users (first_name, last_name, age, phone) VALUES ("Jane", "", 23, "0712345679");
+/* 2023-12-04 15:46:43 [66 ms] */
+INSERT INTO users (first_name, last_name, age, phone) VALUES ("Jane", "Doe", 23, "0712345679");
+
+UPDATE users SET last_name = "Doe" WHERE id = 1;
+/* 2023-12-04 15:47:46 [65 ms] */
+UPDATE users SET last_name = "Doe" WHERE id = 1;
+
+INSERT INTO users (first_name, last_name, age) VALUES ("John", "Doe", 34);
+
+/* 2023-12-04 15:48:30 [65 ms] */
+INSERT INTO users (first_name, last_name, age) VALUES ("John", "Doe", 34);
+
+INSERT INTO users (first_name, last_name, age) VALUES ("Robert", "Downey", 56);
+
+/* 2023-12-04 15:49:25 [66 ms] */
+INSERT INTO users (first_name, last_name, age) VALUES ("Robert", "Downey", 56);
+
+DELETE FROM users WHERE id = 1;
+/* 2023-12-04 15:51:05 [78 ms] */
+DELETE FROM users WHERE id = 1;
+/* 2023-12-04 15:52:40 [63 ms] */
+INSERT INTO users (first_name, last_name, age, phone) VALUES ("Jane", "Doe", 23, "0712345679");
+
+DELETE FROM users;
+/* 2023-12-04 15:53:37 [65 ms] */
+DELETE FROM users;
+/* 2023-12-04 15:54:25 [65 ms] */
+INSERT INTO users (first_name, last_name, age) VALUES ("Robert", "Downey", 56);
+/* 2023-12-04 15:55:10 [76 ms] */
+INSERT INTO users (first_name, last_name, age) VALUES ("John", "Doe", 34);
+/* 2023-12-04 15:55:20 [65 ms] */
+INSERT INTO users (first_name, last_name, age, phone) VALUES ("Jane", "Doe", 23, "0712345679");
+
+
+ALTER TABLE users ADD COLUMN deleted_at DATE;
+/* 2023-12-04 16:09:24 [68 ms] */
+ALTER TABLE users ADD COLUMN deleted_at DATE;
+
+-- Soft delete
+UPDATE users SET deleted_at = "2023-12-04" WHERE id = 5;
+/* 2023-12-04 16:16:17 [61 ms] */
+UPDATE users SET deleted_at='2023-12-04' WHERE "id"=5;
+
+
+-- UNIQUE columns
+DROP TABLE users;
+/* 2023-12-05 09:15:22 [82 ms] */
+DROP TABLE users;
+
+CREATE TABLE users (
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    first_name TEXT NOT NULL,
+    last_name TEXT NOT NULL,
+    age INTEGER NOT NULL,
+    phone TEXT UNIQUE
+);
+/* 2023-12-05 09:16:30 [72 ms] */
+CREATE TABLE users (
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    first_name TEXT NOT NULL,
+    last_name TEXT NOT NULL,
+    age INTEGER NOT NULL,
+    phone TEXT UNIQUE
+);
+
+
+/* 2023-12-05 09:18:01 [61 ms] */
+INSERT INTO users(first_name,last_name,age,phone) VALUES('John','Doe',34,'0712345678');
+/* 2023-12-05 09:18:55 [5 ms] */
+INSERT INTO users(first_name,last_name,age,phone) VALUES('Jane','Doe',23,'0712345678');
+/* 2023-12-05 09:20:04 [67 ms] */
+INSERT INTO users(first_name,last_name,age) VALUES('Jane','Doe',23);
+
+UPDATE users SET phone = '0712345678' WHERE id = 2;
+
+ALTER TABLE users ADD COLUMN email TEXT;
+
+ALTER TABLE users ADD CONSTRAINT unique_email UNIQUE (email);
+
+-- Adding unique constraint to an existing column
+CREATE UNIQUE INDEX unique_email ON users (email);
+/* 2023-12-05 09:25:23 [65 ms] */
+ALTER TABLE users ADD COLUMN email TEXT;
+/* 2023-12-05 09:27:37 [65 ms] */
+CREATE UNIQUE INDEX unique_email ON users (email);
+
+UPDATE users SET email = 'john@gmail.com' WHERE id = 1;
+/* 2023-12-05 09:29:30 [65 ms] */
+UPDATE users SET email = 'john@gmail.com' WHERE id = 1;
+
+UPDATE users SET email = 'jane@gmail.com' WHERE id = 2;
+
+/* 2023-12-05 09:30:37 [63 ms] */
+UPDATE users SET email = 'jane@gmail.com' WHERE id = 2;
+/* 2023-12-05 09:35:31 [66 ms] */
+INSERT INTO users(first_name,last_name,age) VALUES('Clark','Kent',45);
+
+-- Some query aggregators
+SELECT AVG(age) AS age_avg, MIN(age) AS min_age, MAX(age) AS max_age, SUM(age) AS sum_age FROM users;
